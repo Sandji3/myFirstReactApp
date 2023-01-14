@@ -1,25 +1,79 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react'
+import './App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+const App = () => {
+  // ХУКИ - useState()
+  // const [state, setState] = useState(initialState)
+  // state - состояние
+  // setState = функция для изменения state
+  // initialState - изначальное состояние state
+
+  // Состояние для ЛОГИНА
+  const [login, setLogin] = useState('')
+
+  // Состояние для ПАРОЛЯ
+  const [password, setPassword] = useState('')
+
+  // Состояние для сверки ( АВТОРИЗАЦИЯ/РЕГИСТРАЦИЯ )
+  const [isSignIn, setIsSignIn] = useState(true)
+
+  const handleSubmit = (event) => {
+    // Чтобы страница не перезагружалась
+    event.preventDefault()
+
+    // Собираем информацию с инпутов
+    const data = {
+      login: login,
+      password: password
+    }
+
+    // Имитация того что мы отправляем эту инфу на БЭК
+    console.log(data)
+  }
+
+  const handleLoginChange = (event) => {
+    // Сохраняем в login - новое значение
+    setLogin(event.target.value)
+  }
+
+  const handlePasswordChange = (event) => {
+    // Сохраняем в password - новое значение
+    setPassword(event.target.value)
+  }
+
+  return <React.Fragment>
+    <form onSubmit={handleSubmit}>
+      <div className='btn_wrapper'>
+        <button
+            onClick={() => setIsSignIn(false)}
+            className='btn_sign_up'
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+          Зарегистрироваться
+        </button>
+        <button
+            onClick={() => setIsSignIn(true)}
+            className='btn_sign_in'
+        >
+          Войти
+        </button>
+      </div>
+      <h3>{isSignIn ? 'Вход' : 'Регистрация'}</h3>
+      <input
+        onChange={handleLoginChange}
+        value={login}
+        placeholder={isSignIn ? 'Введите ваш логин' : 'Придумайте логин'}
+      />
+      <input
+        onChange={handlePasswordChange}
+        value={password}
+        placeholder={isSignIn ? 'Введите ваш пароль' : 'Придумайте пароль'}
+        type='password'
+      />
+      <button className='btn_submit' type='submit'>
+        {isSignIn ? 'Войти' : 'Зарегистрироваться'}
+      </button>
+    </form>
+  </React.Fragment>
 }
 
-export default App;
+export default App
